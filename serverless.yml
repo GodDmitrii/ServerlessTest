@@ -11,7 +11,8 @@
 #
 # Happy Coding!
 
-service: serverless
+service: 
+  name: serverless
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -19,12 +20,16 @@ service: serverless
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
 frameworkVersion: '2'
+plugins: 
+  - serverless-bundle
 
 provider:
   name: aws
   runtime: nodejs12.x
+  memorySize: 256
   lambdaHashingVersion: 20201221
-
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -61,7 +66,12 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: handler.handler
+    events: 
+      - http:
+          method: GET
+          path: /hello
+    
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -103,13 +113,23 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+ Resources:
+    SqsFromYML2:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: TestYML2
+          RedrivePolicy: 
+            deadLetterTargetArn: 
+              Fn::GetAtt: 
+                - "DeadLetterQueue2"
+                - "Arn"
+            maxReceiveCount: 4
+    DeadLetterQueue2:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: DLQYaml2
+
+custom: 
+  bundle:
+    linting: false

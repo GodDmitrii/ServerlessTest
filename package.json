@@ -1,0 +1,27 @@
+{
+  "name": "serverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GodDmitrii/ServerlessTest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GodDmitrii/ServerlessTest/issues"
+  },
+  "homepage": "https://github.com/GodDmitrii/ServerlessTest#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1046.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "serverless-bundle": "^5.2.0",
+    "webpack": "^5.65.0"
+  }
+}
