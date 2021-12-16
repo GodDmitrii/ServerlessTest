@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/GodDmitrii/ServerlessTest#readme",
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.43.0",
     "aws-sdk": "^2.1046.0"
   },
   "devDependencies": {

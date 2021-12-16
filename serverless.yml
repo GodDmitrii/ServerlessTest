@@ -30,6 +30,14 @@ provider:
   lambdaHashingVersion: 20201221
   stage: ${opt:stage, 'dev'}
   region: eu-central-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - sqs:SendMessage
+      - sqs:DeleteMessage
+      - sqs:DeleteMessageBatch
+      Resource:
+      - arn:aws:sqs:eu-central-1:489328671898:TestYML2
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -130,6 +138,6 @@ resources:
         Properties:
           QueueName: DLQYaml2
 
-custom: 
+custom:
   bundle:
     linting: false
