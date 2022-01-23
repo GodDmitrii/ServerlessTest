@@ -35,6 +35,7 @@ provider:
       Action:
       - sqs:SendMessage
       - sqs:DeleteMessage
+      - sqs:ReceiveMessage
       - sqs:DeleteMessageBatch
       Resource:
       - arn:aws:sqs:eu-central-1:489328671898:TestYML2
@@ -79,6 +80,18 @@ functions:
       - http:
           method: GET
           path: /hello
+  deleteSqs:
+    handler: delete.handler
+    events:
+      - http:
+          method: GET
+          path: /deleteSqs
+  deleteSqsFromDlq:
+    handler: deleteFromDLQ.handler
+    events:
+      - http:
+          method: GET
+          path: /deleteFromDlq
     
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -132,7 +145,7 @@ resources:
               Fn::GetAtt: 
                 - "DeadLetterQueue2"
                 - "Arn"
-            maxReceiveCount: 4
+            maxReceiveCount: 1
     DeadLetterQueue2:
         Type: AWS::SQS::Queue
         Properties:
